@@ -1,4 +1,6 @@
 from django.db import models
+from django.db.models import Sum
+
 from users.models import User
 
 
@@ -8,19 +10,21 @@ class Author(models.Model):
     """
     # Связь «один-к-одному» с встроенной моделью пользователей User
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    rating = 0
+    rating = models.IntegerField(default=0)
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.comment_set = None
 
     def update_rating(self):
-        """
-        Обновляет рейтинг текущего автора.
-        :return:
-        """
-        """
-        Он состоит из следующего:
-            суммарный рейтинг каждой статьи автора умножается на 3;
-            суммарный рейтинг всех комментариев автора;
-            суммарный рейтинг всех комментариев к статьям автора.
-        """
+        """Обновляет рейтинг текущего автора."""
+        article_rating = self.post_set.aggregate(Sum('rating'))['rating__sum'] or 0
+        comment_rating = self.comment_set.aggregate(Sum('rating'))['rating__sum'] or 0
+        comment_rating_to_posts = self.comment_set.filter(post__author=self).aggregate(Sum('rating'))[
+                                      'rating__sum'] or 0
+
+        self.rating = (article_rating * 3) + comment_rating + comment_rating_to_posts
+        self.save()
 
 
 class Category(models.Model):
@@ -28,25 +32,61 @@ class Category(models.Model):
 
 
 class Post(models.Model):
-    pass
+    ARTICLE = 'article'
+    NEWS = 'news'
+
+    TYPE_CHOICES = [
+        (ARTICLE, 'Статья'),
+        (NEWS, 'Новость'),
+    ]
+
+    author = models.ForeignKey(Author, on_delete=models.CASCADE, related_name='posts')
+    type = models.CharField(max_length=10, choices=TYPE_CHOICES)
+    created_at = models.DateTimeField(auto_now_add=True)
+    categories = models.ManyToManyField(Category, through='PostCategory')
+    title = models.CharField(max_length=255)
+    text = models.TextField()
+    rating = models.IntegerField()
+
+    def like(self):
+        """Увеличивает рейтинг на единицу."""
+        self.rating += 1
+        self.save()
+
+    def dislike(self):
+        """Уменьшает рейтинг на единицу."""
+        self.rating -= 1
+        self.save()
+
+    def preview(self):
+        preview_length = 124
+        if len(self.text) <= preview_length:
+            return self.text
+        else:
+            return self.text[:preview_length] + '...'
 
 
 class PostCategory(models.Model):
-    pass
+    """
+    Промежуточная модель для связи «многие ко многим».
+    """
+    post = models.ForeignKey(Post, on_delete=models.CASCADE)
+    category = models.ForeignKey(Category, on_delete=models.CASCADE)
 
 
 class Comment(models.Model):
+    post = models.ForeignKey(Post, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='comments')
+    text = models.TextField()
+    created_at = models.DateTimeField(auto_now_add=True)
+    rating = models.IntegerField()
 
     def like(self):
-        """
-        Увеличивает рейтинг на единицу.
-        :return:
-        """
-        pass
+        """Увеличивает рейтинг на единицу."""
+        self.rating += 1
+        self.save()
 
     def dislike(self):
-        """
-        Уменьшает рейтинг на единицу.
-        :return:
-        """
-        pass
+        """Уменьшает рейтинг на единицу."""
+        self.rating -= 1
+        self.save()
