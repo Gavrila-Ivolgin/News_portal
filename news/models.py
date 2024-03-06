@@ -14,6 +14,7 @@ class Author(models.Model):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
+        self.post_set = None
         self.comment_set = None
 
     def update_rating(self):
@@ -25,6 +26,9 @@ class Author(models.Model):
 
         self.rating = (article_rating * 3) + comment_rating + comment_rating_to_posts
         self.save()
+
+    def __str__(self):
+        return f'Автор: {self.user.username} | Рейтинг: {self.rating}'
 
 
 class Category(models.Model):
@@ -68,7 +72,9 @@ class Post(models.Model):
 
 class PostCategory(models.Model):
     """
-    Промежуточная модель для связи «многие ко многим».
+    Промежуточная модель для связи «многие ко многим» между моделями Post и Category.
+    Позволяет связать несколько категорий с каждой записью Post, а также обеспечивает
+    дополнительные возможности и атрибуты для управления этой связью.
     """
     post = models.ForeignKey(Post, on_delete=models.CASCADE)
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
