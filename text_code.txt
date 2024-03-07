@@ -15,7 +15,6 @@
     user = User.objects.get(username='Elena')
     Author.objects.create(user=user)
 
-
     user = User.objects.get(username="Gavrila_Ivolgin")
     Author.objects.create(user=user)
 
@@ -28,7 +27,6 @@
     Category.objects.create(name="Экономика")
 
     Category.objects.create(name="Культура")
-
 
 4. Добавить 2 статьи и 1 новость.
 
@@ -69,3 +67,29 @@
 
 7. Применяя функции like() и dislike() к статьям/новостям и комментариям, скорректировать рейтинги этих объектов.
 
+    from news.models import Post
+
+    post = Post.objects.get(id=8)
+    <Post: Автор: Elena | title: Какой-то заголовок | rating: 1>
+    post.like()
+    <Post: Автор: Elena | title: Какой-то заголовок | rating: 2>
+
+    post = Post.objects.get(id=10)
+    <Post: Автор: Gavrila_Ivolgin | title: Очередной заголовок | rating: 2>
+    post.dislike()
+    <Post: Автор: Gavrila_Ivolgin | title: Очередной заголовок | rating: 1>
+
+    from news.models import Comment
+
+    com = Comment.objects.get(id=3)
+    <Comment: Post: Автор: Gavrila_Ivolgin | title: Очередной заголовок | rating: 1 | user: Gavrila_Ivolgin | rating: 3>
+    com.like()
+    <Comment: Post: Автор: Gavrila_Ivolgin | title: Очередной заголовок | rating: 1 | user: Gavrila_Ivolgin | rating: 4>
+
+
+8. Обновить рейтинги пользователей.
+
+    from news.models import Author
+
+    Author.objects.all()
+    <QuerySet [<Author: Автор: Elena | Рейтинг: 0>, <Author: Автор: Gavrila_Ivolgin | Рейтинг: 0>]>

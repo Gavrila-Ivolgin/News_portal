@@ -14,18 +14,28 @@ class Author(models.Model):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.post_set = None
-        self.comment_set = None
 
     def update_rating(self):
-        """Обновляет рейтинг текущего автора."""
-        article_rating = self.post_set.aggregate(Sum('rating'))['rating__sum'] or 0
-        comment_rating = self.comment_set.aggregate(Sum('rating'))['rating__sum'] or 0
-        comment_rating_to_posts = self.comment_set.filter(post__author=self).aggregate(Sum('rating'))[
-                                      'rating__sum'] or 0
+        """
+        Обновляет рейтинг текущего автора на основе критериев:
+        суммарный рейтинг каждой статьи автора умножается на 3;
+        суммарный рейтинг всех комментариев автора;
+        суммарный рейтинг всех комментариев к статьям автора.
+        """
+        if self.rating is None:
+            self.rating = 0
 
-        self.rating = (article_rating * 3) + comment_rating + comment_rating_to_posts
-        self.save()
+        author_with_ratings = Author.objects.filter(pk=self.pk).annotate(
+            article_rating=Sum('posts_rating'),
+            comment_rating=Sum('user_comments_rating'),
+            comment_rating_to_posts=Sum('user_comments_rating',
+                                        filter=models.Q(user_comments_post_author=self))
+        ).first()
+
+        if author_with_ratings:
+            self.rating = (author_with_ratings.article_rating or 0) * 3 + (author_with_ratings.comment_rating or 0) + (
+                    author_with_ratings.comment_rating_to_posts or 0)
+            self.save()
 
     def __str__(self):
         return f'Автор: {self.user.username} | Рейтинг: {self.rating}'
@@ -33,6 +43,9 @@ class Author(models.Model):
 
 class Category(models.Model):
     name = models.CharField(max_length=64, unique=True)
+
+    def __str__(self):
+        return f'Категория: {self.name}'
 
 
 class Post(models.Model):
@@ -69,6 +82,9 @@ class Post(models.Model):
         else:
             return self.text[:preview_length] + '...'
 
+    def __str__(self):
+        return f'Автор: {self.author.user.username} | title: {self.title} | rating: {self.rating}'
+
 
 class PostCategory(models.Model):
     """
@@ -77,7 +93,7 @@ class PostCategory(models.Model):
     дополнительные возможности и атрибуты для управления этой связью.
     """
     post = models.ForeignKey(Post, on_delete=models.CASCADE)
-    category = models.ForeignKey(Category, on_delete=models.CASCADE)
+    categories = models.ForeignKey(Category, on_delete=models.CASCADE)
 
 
 class Comment(models.Model):
@@ -96,3 +112,6 @@ class Comment(models.Model):
         """Уменьшает рейтинг на единицу."""
         self.rating -= 1
         self.save()
+
+    def __str__(self):
+        return f'Post: {self.post} | user: {self.user.username} | rating: {self.rating}'
