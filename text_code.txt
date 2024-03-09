@@ -8,6 +8,9 @@
     User.objects.create_user(username="Gavrila_Ivolgin", email="gavrila@yandex.ru")
     <User: Gavrila_Ivolgin>
 
+    User.objects.create_user(username="Pavel", email="Pavel@yandex.ru")
+    <User: Pavel>
+
 2. Создать два объекта модели Author, связанные с пользователями.
 
     from news.models import Author
@@ -30,6 +33,16 @@
 
 4. Добавить 2 статьи и 1 новость.
 
+    """
+    Author.objects.get_or_create(user=user_1) - это метод Django ORM, который позволяет получить объект Author из базы
+    данных, соответствующий указанным параметрам, в данном случае user=user_1. Если объект не найден, то он будет создан
+    с указанными параметрами.
+
+    author_1, created - это две переменные, в которые сохраняются результаты выполнения метода get_or_create().
+    author_1 будет содержать найденный или созданный объект Author, а created будет содержать флаг, указывающий был ли
+    объект создан (True) или найден (False).
+    """
+
     from news.models import Post
 
     user_1 = User.objects.get(username="Elena")
@@ -44,17 +57,29 @@
     author_3, created = Author.objects.get_or_create(user=user_2)
     post_3 = Post.objects.create(author=author_2, type=Post.NEWS, title="Очередной заголовок", text="Более интересный текст", rating=2)
 
+
+    author_3, created = Author.objects.get_or_create(user=user_3)
+    Post.objects.create(author=author_3, type=Post.ARTICLE, title="Первый пост автора Pavel",
+            text="(len=167): Этот пост повествует о том, как нужно создавать объекты экземпляра класса Post
+            авторами постов и нужен для того, чтобы определить работу метода класса preview!", rating=5)
+
+
 5. Присвоить им категории (как минимум в одной статье/новости должно быть не меньше 2 категорий).
 
     category_1 = Category.objects.get(name="Автомобиль")
     category_2 = Category.objects.get(name="Спорт")
     category_3 = Category.objects.get(name="Культура")
     category_4 = Category.objects.get(name="Экономика")
+    или
+    category = Category.objects.get(pk=1)  # <Category: Категория: Спорт>
 
     # Добавляем категории к записи Post
     post_1.categories.add(category_1, category_4, category_2, category_3)
     post_2.categories.add(category_4, category_2)
     post_3.categories.add(category_3, category_1)
+    или
+    Post.objects.last().categories.add(category)
+
 
 6. Создать как минимум 4 комментария к разным объектам модели Post (в каждом объекте должен быть как минимум один комментарий).
 

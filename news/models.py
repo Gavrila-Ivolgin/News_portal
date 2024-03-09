@@ -66,16 +66,17 @@ class Post(models.Model):
     rating = models.IntegerField()
 
     def like(self):
-        """Увеличивает рейтинг на единицу."""
+        """Увеличивает рейтинг поста на единицу."""
         self.rating += 1
         self.save()
 
     def dislike(self):
-        """Уменьшает рейтинг на единицу."""
+        """Уменьшает рейтинг поста на единицу."""
         self.rating -= 1
         self.save()
 
     def preview(self):
+        """Ограничивает вывод поля text."""
         preview_length = 124
         if len(self.text) <= preview_length:
             return self.text
@@ -83,7 +84,11 @@ class Post(models.Model):
             return self.text[:preview_length] + '...'
 
     def __str__(self):
-        return f'Автор: {self.author.user.username} | title: {self.title} | rating: {self.rating}'
+        """Используем обратную связь self.categories.all() для получения
+        всех связанных объектов Category для данного Post."""
+        category_names = ', '.join(category.name for category in self.categories.all())
+        return f'Автор: {self.author.user.username} | Категории: {category_names} | Тип: {self.get_type_display()} | ' \
+               f'Заголовок: {self.title} | Рейтинг: {self.rating}'
 
 
 class PostCategory(models.Model):
@@ -104,12 +109,12 @@ class Comment(models.Model):
     rating = models.IntegerField()
 
     def like(self):
-        """Увеличивает рейтинг на единицу."""
+        """Увеличивает рейтинг комментария на единицу."""
         self.rating += 1
         self.save()
 
     def dislike(self):
-        """Уменьшает рейтинг на единицу."""
+        """Уменьшает рейтинг комментария на единицу."""
         self.rating -= 1
         self.save()
 
