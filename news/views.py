@@ -2,7 +2,7 @@ from django.shortcuts import render
 from django.views.generic.base import TemplateView
 from django.views.generic.list import ListView
 
-from news.models import Author
+from news.models_ver_1 import Author
 
 
 class IndexView(TemplateView):
