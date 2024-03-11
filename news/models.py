@@ -22,20 +22,21 @@ class Author(models.Model):
         суммарный рейтинг всех комментариев автора;
         суммарный рейтинг всех комментариев к статьям автора.
         """
-        if self.rating is None:
-            self.rating = 0
 
-        author_with_ratings = Author.objects.filter(pk=self.pk).annotate(
-            article_rating=Sum('posts_rating'),
-            comment_rating=Sum('user_comments_rating'),
-            comment_rating_to_posts=Sum('user_comments_rating',
-                                        filter=models.Q(user_comments_post_author=self))
-        ).first()
+        # Суммарный рейтинг каждой статьи автора умножается на 3
+        article_rating = self.posts.aggregate(total_rating=Sum('rating'))['total_rating'] or 0
+        article_rating *= 3
 
-        if author_with_ratings:
-            self.rating = (author_with_ratings.article_rating or 0) * 3 + (author_with_ratings.comment_rating or 0) + (
-                    author_with_ratings.comment_rating_to_posts or 0)
-            self.save()
+        # Суммарный рейтинг всех комментариев автора
+        comment_rating = self.user.comments.aggregate(total_rating=Sum('rating'))['total_rating'] or 0
+
+        # Суммарный рейтинг всех комментариев к статьям автора
+        post_comment_rating = Comment.objects.filter(post__author=self).aggregate(total_rating=Sum('rating'))[
+                                  'total_rating'] or 0
+
+        # Обновление рейтинга автора
+        self.rating = article_rating + comment_rating + post_comment_rating
+        self.save()
 
     def __str__(self):
         return f'Автор: {self.user.username} | Рейтинг: {self.rating}'
@@ -102,8 +103,8 @@ class PostCategory(models.Model):
 
 
 class Comment(models.Model):
-    post = models.ForeignKey(Post, on_delete=models.CASCADE)
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='comments')
+    post = models.ForeignKey(Post, on_delete=models.CASCADE)
     text = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)
     rating = models.IntegerField()

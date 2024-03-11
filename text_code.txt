@@ -90,6 +90,8 @@
     comm_3 = Comment.objects.create(post=post_3, user=user_2, text="Это комментарий пользователя Gavrila_Ivolgin к новости <Более интересный текст>", rating=3)
     comm_4 = Comment.objects.create(post=post_3, user=user_1, text="Это комментарий пользователя Елена к новости <Более интересный текст>", rating=2)
 
+    comm = Comment.objects.create(post=post, user=user, text="Pavel комментирует пост пользователя Gavrila", rating=2)
+
 7. Применяя функции like() и dislike() к статьям/новостям и комментариям, скорректировать рейтинги этих объектов.
 
     from news.models import Post
@@ -118,3 +120,76 @@
 
     Author.objects.all()
     <QuerySet [<Author: Автор: Elena | Рейтинг: 0>, <Author: Автор: Gavrila_Ivolgin | Рейтинг: 0>]>
+
+
+    author = Author.objects.get(pk=1)
+    author.update_rating()
+    author  # <Author: Автор: Elena | Рейтинг: 13>
+
+    author = Author.objects.get(pk=2)
+    author.update_rating()
+    author  # <Author: Автор: Gavrila_Ivolgin | Рейтинг: 26>
+
+    author = Author.objects.get(pk=3)
+    author.update_rating()
+    author  # <Author: Автор: Pavel | Рейтинг: 23>
+
+9. Вывести username и рейтинг лучшего пользователя (применяя сортировку и возвращая поля первого объекта).
+
+    authors = Author.objects.all().order_by("rating").values("user__username", "rating").last()
+    authors  # {'user__username': 'Gavrila_Ivolgin', 'rating': 26}
+
+10. Вывести дату добавления, username автора, рейтинг, заголовок и превью лучшей статьи, основываясь на
+    лайках/дислайках к этой статье.
+
+    from news.models import *
+    best_post = Post.objects.order_by("-rating").first()
+
+    best_post.created_at  # Дата добавления
+    datetime.datetime(2024, 3, 9, 19, 53, 55, 70267, tzinfo=datetime.timezone.utc)
+    best_post.author.user.username  # username автора
+    'Pavel'
+    best_post.rating  # Рейтинг
+    5
+    best_post.title  # Заголовок
+    'Первый пост автора Pavel'
+    best_post.preview()  # Превью
+    '(len=167): Этот пост повествует о том, как нужно создавать объекты экземпляра класса Post авторами постов и нужен для того, ...'
+
+11. Вывести все комментарии (дата, пользователь, рейтинг, текст) к этой статье.
+
+    best_post.id  # 11
+
+    best_post.comment_set.all()  # Через связь
+
+    comments = Comment.objects.filter(post=best_post.id)  # Через модель
+
+    for comment in comments:
+    date = comment.created_at
+    user= comment.user.username
+    rating = comment.rating
+    text = comment.text
+    print(date)
+    print(user)
+    print(rating)
+    print(text)
+
+    # 2024-03-10 08:57:52.772347+00:00
+    # Gavrila
+    # 2
+    # Pavel комментирует пост пользователя Gavrila
+
+    # 2024-03-10 08:59:17.921708+00:00
+    # Gavrila
+    # 3
+    # Pavel ещё раз комментирует пост пользователя Gavrila, но уже более качественно
+
+    # 2024-03-10 09:00:58.489020+00:00
+    # Elena
+    # 1
+    # Elena комментирует пост пользователя Pavel
+
+    # 2024-03-10 09:01:22.308685+00:00
+    # Elena
+    # 2
+    # Elena комментирует пост пользователя Pavel ещё раз, но уже более качественно
