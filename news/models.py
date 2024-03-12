@@ -1,19 +1,11 @@
 from django.db import models
+from django.contrib.auth.models import User
 from django.db.models import Sum
-
-from users.models import User
 
 
 class Author(models.Model):
-    """
-    Модель, содержащая объекты всех авторов.
-    """
-    # Связь «один-к-одному» с встроенной моделью пользователей User
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
-    rating = models.IntegerField(default=0)
-
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
+    authorUser = models.OneToOneField(User, on_delete=models.CASCADE)
+    ratingAuthor = models.SmallIntegerField(default=0)
 
     def update_rating(self):
         """
@@ -22,49 +14,49 @@ class Author(models.Model):
         суммарный рейтинг всех комментариев автора;
         суммарный рейтинг всех комментариев к статьям автора.
         """
-
         # Суммарный рейтинг каждой статьи автора умножается на 3
-        article_rating = self.posts.aggregate(total_rating=Sum('rating'))['total_rating'] or 0
-        article_rating *= 3
+        post_rating = self.post_set.aggregate(postRating=Sum("rating"))['postRating'] or 0
+        post_rating *= 3
 
         # Суммарный рейтинг всех комментариев автора
-        comment_rating = self.user.comments.aggregate(total_rating=Sum('rating'))['total_rating'] or 0
+        comment_rating = self.authorUser.comments.aggregate(commentRating=Sum('rating'))['commentRating'] or 0
 
         # Суммарный рейтинг всех комментариев к статьям автора
-        post_comment_rating = Comment.objects.filter(post__author=self).aggregate(total_rating=Sum('rating'))[
-                                  'total_rating'] or 0
+        post_comment_rating = Comment.objects.filter(commentPost__author__authorUser=self).aggregate(
+            postCommentRating=Sum('rating'))['postCommentRating'] or 0
 
         # Обновление рейтинга автора
-        self.rating = article_rating + comment_rating + post_comment_rating
+        self.ratingAuthor = post_rating + comment_rating + post_comment_rating
         self.save()
 
     def __str__(self):
-        return f'Автор: {self.user.username} | Рейтинг: {self.rating}'
+        pass
+        # return f'Автор: {self.user.username} | Рейтинг: {self.rating}'
 
 
 class Category(models.Model):
     name = models.CharField(max_length=64, unique=True)
 
-    def __str__(self):
-        return f'Категория: {self.name}'
+    # def __str__(self):
+    #     return f'Категория: {self.name}'
 
 
 class Post(models.Model):
-    ARTICLE = 'article'
-    NEWS = 'news'
+    ARTICLE = 'AR'
+    NEWS = 'NW'
 
-    TYPE_CHOICES = [
+    CATEGORY_CHOICES = [
         (ARTICLE, 'Статья'),
         (NEWS, 'Новость'),
     ]
 
-    author = models.ForeignKey(Author, on_delete=models.CASCADE, related_name='posts')
-    type = models.CharField(max_length=10, choices=TYPE_CHOICES)
-    created_at = models.DateTimeField(auto_now_add=True)
-    categories = models.ManyToManyField(Category, through='PostCategory')
-    title = models.CharField(max_length=255)
+    author = models.ForeignKey(Author, on_delete=models.CASCADE)  # related_name='posts'
+    categoryType = models.CharField(max_length=2, choices=CATEGORY_CHOICES, default=ARTICLE)
+    dateCreation = models.DateTimeField(auto_now_add=True)
+    postCategory = models.ManyToManyField(Category, through='PostCategory')
+    title = models.CharField(max_length=128)
     text = models.TextField()
-    rating = models.IntegerField()
+    rating = models.SmallIntegerField(default=0)
 
     def like(self):
         """Увеличивает рейтинг поста на единицу."""
@@ -98,16 +90,16 @@ class PostCategory(models.Model):
     Позволяет связать несколько категорий с каждой записью Post, а также обеспечивает
     дополнительные возможности и атрибуты для управления этой связью.
     """
-    post = models.ForeignKey(Post, on_delete=models.CASCADE)
-    categories = models.ForeignKey(Category, on_delete=models.CASCADE)
+    postThrough = models.ForeignKey(Post, on_delete=models.CASCADE)
+    categoriesThrough = models.ForeignKey(Category, on_delete=models.CASCADE)
 
 
 class Comment(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='comments')
-    post = models.ForeignKey(Post, on_delete=models.CASCADE)
+    commentPost = models.ForeignKey(Post, on_delete=models.CASCADE)
+    commentUser = models.ForeignKey(User, on_delete=models.CASCADE)  # related_name='comments'
     text = models.TextField()
-    created_at = models.DateTimeField(auto_now_add=True)
-    rating = models.IntegerField()
+    dateCreation = models.DateTimeField(auto_now_add=True)
+    rating = models.SmallIntegerField(default=0)
 
     def like(self):
         """Увеличивает рейтинг комментария на единицу."""
