@@ -30,15 +30,14 @@ class Author(models.Model):
         self.save()
 
     def __str__(self):
-        pass
-        # return f'Автор: {self.user.username} | Рейтинг: {self.rating}'
+        return f'Автор: {self.authorUser.username} | Рейтинг: {self.ratingAuthor}'
 
 
 class Category(models.Model):
     name = models.CharField(max_length=64, unique=True)
 
-    # def __str__(self):
-    #     return f'Категория: {self.name}'
+    def __str__(self):
+        return f'Категория: {self.name}'
 
 
 class Post(models.Model):
@@ -79,9 +78,10 @@ class Post(models.Model):
     def __str__(self):
         """Используем обратную связь self.categories.all() для получения
         всех связанных объектов Category для данного Post."""
-        category_names = ', '.join(category.name for category in self.categories.all())
-        return f'Автор: {self.author.user.username} | Категории: {category_names} | Тип: {self.get_type_display()} | ' \
-               f'Заголовок: {self.title} | Рейтинг: {self.rating}'
+        category_names = ', '.join(category.name for category in self.postCategory.all())
+        return f'Автор: {self.author.authorUser.username} | Категории: {category_names} ' \
+               f'| Тип: {self.get_categoryType_display()} ' \
+               f'| Заголовок: {self.title} | Рейтинг: {self.rating}'
 
 
 class PostCategory(models.Model):
@@ -112,4 +112,4 @@ class Comment(models.Model):
         self.save()
 
     def __str__(self):
-        return f'Post: {self.post} | user: {self.user.username} | rating: {self.rating}'
+        return f'Post: {self.commentPost} | user: {self.commentUser.username} | rating: {self.rating}'

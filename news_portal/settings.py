@@ -40,7 +40,6 @@ INSTALLED_APPS = [
     'django_extensions',
 
     'news',
-    'users',
 ]
 
 MIDDLEWARE = [
