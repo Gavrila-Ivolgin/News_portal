@@ -16,10 +16,10 @@
     from news.models import Author
 
     user = User.objects.get(username='Elena')
-    Author.objects.create(user=user)
+    Author.objects.create(authorUser=user)
 
     user = User.objects.get(username="Gavrila_Ivolgin")
-    Author.objects.create(user=user)
+    Author.objects.create(authorUser=user)
 
 3. Добавить 4 категории в модель Category.
 
@@ -47,19 +47,19 @@
 
     user_1 = User.objects.get(username="Elena")
     user_2 = User.objects.get(username="Gavrila_Ivolgin")
+    user_3 = User.objects.get(username="Pavel")
 
-    author_1, created = Author.objects.get_or_create(user=user_1)
-    post_1 = Post.objects.create(author=author_1, type=Post.ARTICLE, title="Какой-то заголовок", text="Какой-то текст", rating=1)
+    author_1, created = Author.objects.get_or_create(authorUser=user_1)
+    post_1 = Post.objects.create(author=author_1, categoryType=Post.ARTICLE, title="Пост автора Elena # 1: Какой-то заголовок", text="Какой-то текст", rating=1)
 
-    author_2, created = Author.objects.get_or_create(user=user_2)
-    post_2 = Post.objects.create(author=author_2, type=Post.ARTICLE, title="Опять какой-то заголовок", text="Опять какой-то текст", rating=3)
+    author_2, created = Author.objects.get_or_create(authorUser=user_2)
+    post_2 = Post.objects.create(author=author_2, categoryType=Post.ARTICLE, title="Пост автора Gavrila_Ivolgin # 1: Опять какой-то заголовок", text="Опять какой-то текст", rating=3)
 
-    author_3, created = Author.objects.get_or_create(user=user_2)
-    post_3 = Post.objects.create(author=author_2, type=Post.NEWS, title="Очередной заголовок", text="Более интересный текст", rating=2)
+    post_3 = Post.objects.create(author=author_2, categoryType=Post.NEWS, title="Новость автора Gavrila_Ivolgin # 1: Очередной заголовок", text="Более интересный текст", rating=2)
 
 
-    author_3, created = Author.objects.get_or_create(user=user_3)
-    Post.objects.create(author=author_3, type=Post.ARTICLE, title="Первый пост автора Pavel",
+    author_3, created = Author.objects.get_or_create(authorUser=user_3)
+    Post.objects.create(author=author_3, categoryType=Post.ARTICLE, title="Первый пост автора Pavel",
             text="(len=167): Этот пост повествует о том, как нужно создавать объекты экземпляра класса Post
             авторами постов и нужен для того, чтобы определить работу метода класса preview!", rating=5)
 
@@ -74,23 +74,23 @@
     category = Category.objects.get(pk=1)  # <Category: Категория: Спорт>
 
     # Добавляем категории к записи Post
-    post_1.categories.add(category_1, category_4, category_2, category_3)
-    post_2.categories.add(category_4, category_2)
-    post_3.categories.add(category_3, category_1)
+    post_1.postCategory.add(category_1, category_4, category_2, category_3)
+    post_2.postCategory.add(category_4, category_2)
+    post_3.postCategory.add(category_3, category_1)
     или
-    Post.objects.last().categories.add(category)
+    Post.objects.last().postCategory.add(category)
 
 
 6. Создать как минимум 4 комментария к разным объектам модели Post (в каждом объекте должен быть как минимум один комментарий).
 
     from news.models import Comment
 
-    comm_1 = Comment.objects.create(post=post_1, user=user_1, text="Это комментарий пользователя Елена к посту <Какой-то заголовок>", rating=1)
-    comm_2 = Comment.objects.create(post=post_2, user=user_2, text="Это комментарий пользователя Gavrila_Ivolgin к посту <Опять какой-то заголовок>", rating=2)
-    comm_3 = Comment.objects.create(post=post_3, user=user_2, text="Это комментарий пользователя Gavrila_Ivolgin к новости <Более интересный текст>", rating=3)
-    comm_4 = Comment.objects.create(post=post_3, user=user_1, text="Это комментарий пользователя Елена к новости <Более интересный текст>", rating=2)
+    comm_1 = Comment.objects.create(commentPost=post_1, commentUser=user_1, text="Это комментарий пользователя Елена к посту <Какой-то заголовок>", rating=1)
+    comm_2 = Comment.objects.create(commentPost=post_2, commentUser=user_2, text="Это комментарий пользователя Gavrila_Ivolgin к посту <Опять какой-то заголовок>", rating=2)
+    comm_3 = Comment.objects.create(commentPost=post_3, commentUser=user_2, text="Это комментарий пользователя Gavrila_Ivolgin к новости <Более интересный текст>", rating=3)
+    comm_4 = Comment.objects.create(commentPost=post_3, commentUser=user_1, text="Это комментарий пользователя Елена к новости <Более интересный текст>", rating=2)
 
-    comm = Comment.objects.create(post=post, user=user, text="Pavel комментирует пост пользователя Gavrila", rating=2)
+    comm = Comment.objects.create(commentPost=post_3, commentUser=user, text="Pavel комментирует пост пользователя Gavrila", rating=2)
 
 7. Применяя функции like() и dislike() к статьям/новостям и комментариям, скорректировать рейтинги этих объектов.
 
@@ -136,7 +136,7 @@
 
 9. Вывести username и рейтинг лучшего пользователя (применяя сортировку и возвращая поля первого объекта).
 
-    authors = Author.objects.all().order_by("rating").values("user__username", "rating").last()
+    authors = Author.objects.all().order_by("ratingAuthor").values("authorUser__username", "ratingAuthor").last()
     authors  # {'user__username': 'Gavrila_Ivolgin', 'rating': 26}
 
 10. Вывести дату добавления, username автора, рейтинг, заголовок и превью лучшей статьи, основываясь на

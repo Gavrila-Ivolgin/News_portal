@@ -19,10 +19,18 @@ class Author(models.Model):
         post_rating *= 3
 
         # Суммарный рейтинг всех комментариев автора
-        comment_rating = self.authorUser.comments.aggregate(commentRating=Sum('rating'))['commentRating'] or 0
+        comment_rating = self.authorUser.comment_set.aggregate(commentRating=Sum('rating'))['commentRating'] or 0
 
         # Суммарный рейтинг всех комментариев к статьям автора
-        post_comment_rating = Comment.objects.filter(commentPost__author__authorUser=self).aggregate(
+        """Запрос к модели Comment, который фильтрует комментарии, связанные с постами,
+        у которых автором является указанный пользователь (self.authorUser).
+        
+        commentPost - это поле в модели Comment, которое ссылается на модель Post.
+        author - это поле в модели Post, которое ссылается на модель Author.
+        authorUser - это поле в модели Author, которое ссылается на модель User.
+        self.authorUser - это объект User, который является автором текущего экземпляра модели Author.
+        """
+        post_comment_rating = Comment.objects.filter(commentPost__author__authorUser=self.authorUser).aggregate(
             postCommentRating=Sum('rating'))['postCommentRating'] or 0
 
         # Обновление рейтинга автора
