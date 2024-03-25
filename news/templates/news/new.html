@@ -8,5 +8,12 @@
 
 <!-- В контенте на странице мы выводим саму новость, идентификатор которого был передан в url -->
 {% block content %}
-    <h1>{{ new }}</h1>
+
+    <table>
+        <tr>
+            <td>{{ new.title }}</td>
+            <td>{{ new.dateCreation|date:'d M Y' }}</td>
+            <td>{{ new.text }}</td>
+        </tr>
+    </table>
 {% endblock content %}
