@@ -1,0 +1,11 @@
+<!--  наследуемся от шаблона default.html -->
+{% extends 'default.html' %}
+
+<!-- Название у нас будет News -->
+{% block title %} News {% endblock title %}
+
+<!-- В контенте на странице мы выводим все новости -->
+{% block content %}
+    <h1>Все новости</h1>
+    {{ news }}
+{% endblock content %}
