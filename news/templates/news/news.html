@@ -1,6 +1,8 @@
 <!--  наследуемся от шаблона default.html -->
 {% extends 'default.html' %}
 
+{% load custom_filters %}
+
 <!-- Название у нас будет News -->
 {% block title %} News {% endblock title %}
 
@@ -19,7 +21,7 @@
             </tr>
             {% for new in news %}
                 <tr>
-                    <td>{{ new.title }}</td>
+                    <td>{{ new.title|censor }}</td>
                     <td>{{ new.dateCreation|date:'d M Y' }}</td>
                     <td>{{ new.text|truncatewords:20 }}</td>
                 </tr>
