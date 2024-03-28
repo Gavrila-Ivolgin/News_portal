@@ -23,7 +23,7 @@
                 <tr>
                     <td>{{ new.title|censor }}</td>
                     <td>{{ new.dateCreation|date:'d M Y' }}</td>
-                    <td>{{ new.text|truncatewords:20 }}</td>
+                    <td>{{ new.text|censor|truncatewords:20 }}</td>
                 </tr>
             {% endfor %}
 
