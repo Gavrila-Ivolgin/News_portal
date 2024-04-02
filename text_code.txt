@@ -134,6 +134,24 @@
     author.update_rating()
     author  # <Author: Автор: Pavel | Рейтинг: 23>
 
+    Вариант через цикл for:
+
+    a = Author.objects.all()
+
+    for i in a:
+        print("before rating", i.authorUser.username, i.ratingAuthor)
+        i.update_rating()
+        print("after rating", i.authorUser.username, i.ratingAuthor)
+
+    # before rating Elena 7
+    # after rating Elena 64
+    # before rating Gavrila_Ivolgin 37
+    # after rating Gavrila_Ivolgin 64
+    # before rating Pavel 15
+    # after rating Pavel 45
+
+
+
 9. Вывести username и рейтинг лучшего пользователя (применяя сортировку и возвращая поля первого объекта).
 
     authors = Author.objects.all().order_by("ratingAuthor").values("authorUser__username", "ratingAuthor").last()

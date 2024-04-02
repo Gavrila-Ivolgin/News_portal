@@ -68,6 +68,7 @@ class Post(models.Model):
     title = models.CharField(max_length=128)
     text = models.TextField()
     rating = models.SmallIntegerField(default=0)
+    added_at = models.DateTimeField(auto_now=True)  # Время добавления товара на сайт
 
     def like(self):
         """Увеличивает рейтинг поста на единицу."""
@@ -93,7 +94,11 @@ class Post(models.Model):
         category_names = ', '.join(category.name for category in self.postCategory.all())
         return f'Автор: {self.author.authorUser.username} | Категории: {category_names} ' \
                f'| Тип: {self.get_categoryType_display()} ' \
-               f'| Заголовок: {self.title} | Рейтинг: {self.rating}'
+               f'| Заголовок: {self.title} | Рейтинг: {self.rating} | Дата размещения: {self.added_at}'
+
+    class Meta:
+        verbose_name = "Пост"
+        verbose_name_plural = "Посты"
 
 
 class PostCategory(models.Model):
@@ -104,6 +109,9 @@ class PostCategory(models.Model):
     """
     postThrough = models.ForeignKey(Post, on_delete=models.CASCADE)
     categoriesThrough = models.ForeignKey(Category, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return f'postThrough: {self.postThrough} | categoriesThrough: {self.categoriesThrough}'
 
 
 class Comment(models.Model):
