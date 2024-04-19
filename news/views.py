@@ -11,7 +11,7 @@ class NewsList(ListView):
     ordering = "-dateCreation"
     template_name = "news/news.html"
     context_object_name = "news"
-    paginate_by = 3
+    paginate_by = 10
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -30,7 +30,7 @@ class NewsSearchList(ListView):
     ordering = "-dateCreation"
     template_name = "news/news_search.html"
     context_object_name = "news"
-    paginate_by = 3
+    paginate_by = 10
 
     # Переопределяем функцию получения списка товаров
     def get_queryset(self):
