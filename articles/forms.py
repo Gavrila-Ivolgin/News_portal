@@ -3,20 +3,10 @@ from news.models import Post
 from django.core.exceptions import ValidationError
 
 
-class PostFormNews(forms.ModelForm):
-
+class PostFormArticles(forms.ModelForm):
     class Meta:
         model = Post
-        fields = [
-            'author',
-            # 'categoryType',
-            # 'dateCreation',
-            'postCategory',
-            'title',
-            'text',
-            'rating',
-            # 'added_at'
-        ]
+        fields = ['author', 'postCategory', 'title', 'text', 'rating']
 
     def clean(self):
         cleaned_data = super().clean()
@@ -29,4 +19,3 @@ class PostFormNews(forms.ModelForm):
             )
 
         return cleaned_data
-

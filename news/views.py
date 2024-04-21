@@ -63,17 +63,6 @@ class PostNewsCreate(CreateView):
         return super().form_valid(form)
 
 
-class PostArticleCreate(CreateView):
-    form_class = PostFormNews
-    model = Post
-    template_name = 'news/post_edit.html'
-
-    def form_valid(self, form):
-        post = form.save(commit=False)
-        post.categoryType = 'AR'
-        return super().form_valid(form)
-
-
 class PostUpdate(UpdateView):
     form_class = PostFormNews
     model = Post
