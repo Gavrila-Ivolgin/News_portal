@@ -1,0 +1,19 @@
+<!--  наследуемся от шаблона default.html -->
+{% extends 'news/default.html' %}
+{% load custom_filters %}
+
+<!-- Название у нас будет New -->
+{% block title %}
+    {{ new.categoryType }}
+{% endblock title %}
+
+<!-- В контенте на странице мы выводим саму новость, идентификатор которого был передан в url -->
+{% block content %}
+    <table>
+        <tr>
+            <td>{{ new.title|censor }}</td>
+            <td>{{ new.dateCreation|date:'d M Y' }}</td>
+            <td>{{ new.text|censor }}</td>
+        </tr>
+    </table>
+{% endblock content %}
