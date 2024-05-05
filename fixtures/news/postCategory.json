@@ -1,0 +1,218 @@
+[
+  {
+    "model": "news.postcategory",
+    "pk": 1,
+    "fields": {
+      "postThrough": 1,
+      "categoriesThrough": 1
+    }
+  },
+  {
+    "model": "news.postcategory",
+    "pk": 2,
+    "fields": {
+      "postThrough": 1,
+      "categoriesThrough": 2
+    }
+  },
+  {
+    "model": "news.postcategory",
+    "pk": 3,
+    "fields": {
+      "postThrough": 1,
+      "categoriesThrough": 3
+    }
+  },
+  {
+    "model": "news.postcategory",
+    "pk": 4,
+    "fields": {
+      "postThrough": 1,
+      "categoriesThrough": 4
+    }
+  },
+  {
+    "model": "news.postcategory",
+    "pk": 5,
+    "fields": {
+      "postThrough": 2,
+      "categoriesThrough": 1
+    }
+  },
+  {
+    "model": "news.postcategory",
+    "pk": 6,
+    "fields": {
+      "postThrough": 2,
+      "categoriesThrough": 3
+    }
+  },
+  {
+    "model": "news.postcategory",
+    "pk": 7,
+    "fields": {
+      "postThrough": 4,
+      "categoriesThrough": 2
+    }
+  },
+  {
+    "model": "news.postcategory",
+    "pk": 8,
+    "fields": {
+      "postThrough": 14,
+      "categoriesThrough": 4
+    }
+  },
+  {
+    "model": "news.postcategory",
+    "pk": 9,
+    "fields": {
+      "postThrough": 15,
+      "categoriesThrough": 3
+    }
+  },
+  {
+    "model": "news.postcategory",
+    "pk": 10,
+    "fields": {
+      "postThrough": 15,
+      "categoriesThrough": 4
+    }
+  },
+  {
+    "model": "news.postcategory",
+    "pk": 11,
+    "fields": {
+      "postThrough": 13,
+      "categoriesThrough": 4
+    }
+  },
+  {
+    "model": "news.postcategory",
+    "pk": 12,
+    "fields": {
+      "postThrough": 14,
+      "categoriesThrough": 2
+    }
+  },
+  {
+    "model": "news.postcategory",
+    "pk": 13,
+    "fields": {
+      "postThrough": 11,
+      "categoriesThrough": 2
+    }
+  },
+  {
+    "model": "news.postcategory",
+    "pk": 14,
+    "fields": {
+      "postThrough": 6,
+      "categoriesThrough": 2
+    }
+  },
+  {
+    "model": "news.postcategory",
+    "pk": 15,
+    "fields": {
+      "postThrough": 12,
+      "categoriesThrough": 4
+    }
+  },
+  {
+    "model": "news.postcategory",
+    "pk": 16,
+    "fields": {
+      "postThrough": 11,
+      "categoriesThrough": 1
+    }
+  },
+  {
+    "model": "news.postcategory",
+    "pk": 17,
+    "fields": {
+      "postThrough": 10,
+      "categoriesThrough": 2
+    }
+  },
+  {
+    "model": "news.postcategory",
+    "pk": 18,
+    "fields": {
+      "postThrough": 17,
+      "categoriesThrough": 3
+    }
+  },
+  {
+    "model": "news.postcategory",
+    "pk": 19,
+    "fields": {
+      "postThrough": 18,
+      "categoriesThrough": 3
+    }
+  },
+  {
+    "model": "news.postcategory",
+    "pk": 20,
+    "fields": {
+      "postThrough": 20,
+      "categoriesThrough": 4
+    }
+  },
+  {
+    "model": "news.postcategory",
+    "pk": 21,
+    "fields": {
+      "postThrough": 21,
+      "categoriesThrough": 4
+    }
+  },
+  {
+    "model": "news.postcategory",
+    "pk": 23,
+    "fields": {
+      "postThrough": 23,
+      "categoriesThrough": 1
+    }
+  },
+  {
+    "model": "news.postcategory",
+    "pk": 24,
+    "fields": {
+      "postThrough": 24,
+      "categoriesThrough": 4
+    }
+  },
+  {
+    "model": "news.postcategory",
+    "pk": 25,
+    "fields": {
+      "postThrough": 25,
+      "categoriesThrough": 2
+    }
+  },
+  {
+    "model": "news.postcategory",
+    "pk": 26,
+    "fields": {
+      "postThrough": 26,
+      "categoriesThrough": 4
+    }
+  },
+  {
+    "model": "news.postcategory",
+    "pk": 27,
+    "fields": {
+      "postThrough": 27,
+      "categoriesThrough": 1
+    }
+  },
+  {
+    "model": "news.postcategory",
+    "pk": 28,
+    "fields": {
+      "postThrough": 28,
+      "categoriesThrough": 3
+    }
+  }
+]

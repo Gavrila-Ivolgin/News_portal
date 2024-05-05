@@ -1,0 +1,57 @@
+[
+  {
+    "model": "news.comment",
+    "pk": 1,
+    "fields": {
+      "commentPost": 1,
+      "commentUser": 1,
+      "text": "Это комментарий пользователя Елена к посту <Какой-то заголовок>",
+      "dateCreation": "2024-03-12T19:05:16.398Z",
+      "rating": 1
+    }
+  },
+  {
+    "model": "news.comment",
+    "pk": 2,
+    "fields": {
+      "commentPost": 2,
+      "commentUser": 2,
+      "text": "Это комментарий пользователя Gavrila_Ivolgin к посту <Опять какой-то заголовок>",
+      "dateCreation": "2024-03-12T19:05:29.984Z",
+      "rating": 2
+    }
+  },
+  {
+    "model": "news.comment",
+    "pk": 3,
+    "fields": {
+      "commentPost": 4,
+      "commentUser": 2,
+      "text": "Это комментарий пользователя Gavrila_Ivolgin к новости <Более интересный текст>",
+      "dateCreation": "2024-03-12T19:05:37.512Z",
+      "rating": 3
+    }
+  },
+  {
+    "model": "news.comment",
+    "pk": 4,
+    "fields": {
+      "commentPost": 4,
+      "commentUser": 1,
+      "text": "Это комментарий пользователя Елена к новости <Более интересный текст>",
+      "dateCreation": "2024-03-12T19:05:46.855Z",
+      "rating": 2
+    }
+  },
+  {
+    "model": "news.comment",
+    "pk": 5,
+    "fields": {
+      "commentPost": 4,
+      "commentUser": 2,
+      "text": "Pavel комментирует пост пользователя Gavrila",
+      "dateCreation": "2024-03-12T19:06:53.234Z",
+      "rating": 2
+    }
+  }
+]

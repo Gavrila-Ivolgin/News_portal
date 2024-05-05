@@ -1,0 +1,326 @@
+[
+  {
+    "model": "news.post",
+    "pk": 1,
+    "fields": {
+      "author": 1,
+      "categoryType": "AR",
+      "dateCreation": "2024-03-12T09:19:39.808Z",
+      "title": "Пост автора Elena # 1: Какой-то заголовок",
+      "text": "ListView — запрашивает данные из базы по указанной модели, находит указанный шаблон, \r\nпередаёт объекты в шаблон. При этом у него есть методы, которые мы можем переопределить. Одним из таких методов является get_context_data, позволяет нам получить дополнительные данные, которые будут переданы в шаблон.",
+      "rating": 2
+    }
+  },
+  {
+    "model": "news.post",
+    "pk": 2,
+    "fields": {
+      "author": 2,
+      "categoryType": "AR",
+      "dateCreation": "2024-03-12T09:20:16.830Z",
+      "title": "Пост автора Gavrila_Ivolgin # 1: подъем экономики в Бобруйской области",
+      "text": "Опять какой-то текст. Коррекция поста от 19/04/2024 через форму представлением PostUpdate",
+      "rating": 3
+    }
+  },
+  {
+    "model": "news.post",
+    "pk": 3,
+    "fields": {
+      "author": 2,
+      "categoryType": "NW",
+      "dateCreation": "2024-03-12T09:21:05.711Z",
+      "title": "Новость автора Gavrila_Ivolgin # 1: Очередной заголовок",
+      "text": "Более интересный текст",
+      "rating": 2
+    }
+  },
+  {
+    "model": "news.post",
+    "pk": 4,
+    "fields": {
+      "author": 2,
+      "categoryType": "NW",
+      "dateCreation": "2024-03-12T09:23:03.330Z",
+      "title": "Новость автора Gavrila_Ivolgin # 1: Очередной заголовок",
+      "text": "Более интересный текст (обновление через форму http://127.0.0.1:8000/articles/4/update/)",
+      "rating": 2
+    }
+  },
+  {
+    "model": "news.post",
+    "pk": 5,
+    "fields": {
+      "author": 3,
+      "categoryType": "AR",
+      "dateCreation": "2024-03-12T09:24:25.969Z",
+      "title": "Первый пост автора Pavel",
+      "text": "(len=167): Этот пост повествует о том, как нужно создавать объекты экземпляра класса Post авторами постов и нужен для того, чтобы определить работу метода класса preview!",
+      "rating": 5
+    }
+  },
+  {
+    "model": "news.post",
+    "pk": 6,
+    "fields": {
+      "author": 2,
+      "categoryType": "NW",
+      "dateCreation": "2024-03-25T14:53:28.867Z",
+      "title": "Новость об хорошей погоде",
+      "text": "Неожиданное потепление до +2 градусов сегодня произошло в г. Бобруйске. Жители города вышли на улицу и возвели руки к солнцу. Как мало нужно людям для счастья в г. Бобруйске. Отличный повод для веселья!",
+      "rating": 2
+    }
+  },
+  {
+    "model": "news.post",
+    "pk": 7,
+    "fields": {
+      "author": 3,
+      "categoryType": "AR",
+      "dateCreation": "2024-04-01T07:01:15.693Z",
+      "title": "Новые возможности для юристов",
+      "text": "01.04.2024 вышло приложение для диванных критиков, которое может генерировать комментарии к постам по содержанию, соответствующему индивидууму",
+      "rating": 3
+    }
+  },
+  {
+    "model": "news.post",
+    "pk": 8,
+    "fields": {
+      "author": 1,
+      "categoryType": "NW",
+      "dateCreation": "2024-04-01T07:02:04.646Z",
+      "title": "Хорошая новость",
+      "text": "С сегодняшнего дня собаки могут самостоятельно обращаться в МФЦ за получением талонов на питание",
+      "rating": 6
+    }
+  },
+  {
+    "model": "news.post",
+    "pk": 9,
+    "fields": {
+      "author": 2,
+      "categoryType": "NW",
+      "dateCreation": "2024-04-01T07:03:18.522Z",
+      "title": "Унесенные ветром",
+      "text": "Вчера из-за сильного ветра у жителя г. Бобруйска унесло выдуло из головы все идеи относительного своего проекта",
+      "rating": 3
+    }
+  },
+  {
+    "model": "news.post",
+    "pk": 10,
+    "fields": {
+      "author": 1,
+      "categoryType": "NW",
+      "dateCreation": "2024-04-01T07:04:19.920Z",
+      "title": "Неожиданная находка",
+      "text": "Сегодня, 01.04.2024, житель г. Б. обнаружил чужие идеи по созданию приложения для диванных критиков, которое создает автоматически посты к комментариям",
+      "rating": 3
+    }
+  },
+  {
+    "model": "news.post",
+    "pk": 11,
+    "fields": {
+      "author": 2,
+      "categoryType": "NW",
+      "dateCreation": "2024-04-01T07:05:30.433Z",
+      "title": "Диванных критиков стало больше",
+      "text": "- Я в порядке, сказал житель города Б. и автоматически сгенерировал 25 комментариев к новости автора Pavel с нецензурными словами",
+      "rating": 4
+    }
+  },
+  {
+    "model": "news.post",
+    "pk": 12,
+    "fields": {
+      "author": 1,
+      "categoryType": "AR",
+      "dateCreation": "2024-04-01T07:08:05.011Z",
+      "title": "Генератор персонажа (Стеб)",
+      "text": "Рыжие волосы слегка завитые короткие, с короткой челкой едва скрывающей брови. большой лоб, узкие брови и зеленого цвета, большие глаза. Полные губы, маленький аккуратный нос.\r\nХудощавая фигура, одетая в добротные кожаные доспехи. На ногах же были кожаные сапоги.\r\nРаса: Сущность тьмы\r\nОружие: Два ножа-кинжала.\r\nСпособности: Изменяющий реальность(автор), Защитная магия, Геомантия, Гидромантия.\r\nХарактер: Буйный, Увлекающийся, Эстет.\r\nВозраст:\r\nвремя не властно",
+      "rating": 4
+    }
+  },
+  {
+    "model": "news.post",
+    "pk": 13,
+    "fields": {
+      "author": 1,
+      "categoryType": "AR",
+      "dateCreation": "2024-04-01T07:09:23.907Z",
+      "title": "Описание персонажа",
+      "text": "Пол: женский\r\nВозраст:27\r\nГолос: угрожающий\r\nГлаза: карие\r\nЦвет кожи: чёрный\r\nЦвет волос: седые\r\nТолщина волос: толстые\r\nФорма волос: прямые",
+      "rating": 2
+    }
+  },
+  {
+    "model": "news.post",
+    "pk": 14,
+    "fields": {
+      "author": 3,
+      "categoryType": "NW",
+      "dateCreation": "2024-04-01T07:10:00.877Z",
+      "title": "Хобби персонажа",
+      "text": "Персонаж в качестве хобби изучает психологию и медицину.",
+      "rating": 3
+    }
+  },
+  {
+    "model": "news.post",
+    "pk": 15,
+    "fields": {
+      "author": 3,
+      "categoryType": "NW",
+      "dateCreation": "2024-04-01T10:05:49.910Z",
+      "title": "Снижение тарифов ЖКХ",
+      "text": "С 01.04.2024 в г. Бобруйске по решению Совета депутатов будет снижены цены на ЖКХ на 80%.",
+      "rating": 4
+    }
+  },
+  {
+    "model": "news.post",
+    "pk": 16,
+    "fields": {
+      "author": 1,
+      "categoryType": "NW",
+      "dateCreation": "2024-04-01T15:29:22.666Z",
+      "title": "Главная новость дня",
+      "text": "<input> elements of type datetime-local create input controls that let the user easily enter both a date and a time, including the year, month, and day as well as the time in hours and minutes.",
+      "rating": 3
+    }
+  },
+  {
+    "model": "news.post",
+    "pk": 17,
+    "fields": {
+      "author": 1,
+      "categoryType": "AR",
+      "dateCreation": "2024-04-01T15:35:06.369Z",
+      "title": "Генератор идей к солнцу",
+      "text": "Автор статьи предлагает новый генератор идей солнцу. Берем и пробуем.",
+      "rating": 3
+    }
+  },
+  {
+    "model": "news.post",
+    "pk": 18,
+    "fields": {
+      "author": 3,
+      "categoryType": "NW",
+      "dateCreation": "2024-04-02T07:59:35.719Z",
+      "title": "Новая новость про новость",
+      "text": "02.04.2024 в 12-00 на площади г. Бобруйска, когда люди возведут руки к солнцу, партией будет объявлена новая новость про новость",
+      "rating": 2
+    }
+  },
+  {
+    "model": "news.post",
+    "pk": 19,
+    "fields": {
+      "author": 3,
+      "categoryType": "NW",
+      "dateCreation": "2024-04-19T17:12:38.146Z",
+      "title": "Сегодня пятница - конец рабочей недели",
+      "text": "Неожиданно наступила пятница, а это значит - что конец рабочей недели. Жители г. Бобруйска выдут на улицу и будут наслаждаться теплыми весенними днями",
+      "rating": 2
+    }
+  },
+  {
+    "model": "news.post",
+    "pk": 20,
+    "fields": {
+      "author": 1,
+      "categoryType": "NW",
+      "dateCreation": "2024-04-19T17:22:48.995Z",
+      "title": "Новость пользователя Elena",
+      "text": "19/04/2024 пользователь Елена совершила первое добавление новости через форму",
+      "rating": 3
+    }
+  },
+  {
+    "model": "news.post",
+    "pk": 21,
+    "fields": {
+      "author": 1,
+      "categoryType": "NW",
+      "dateCreation": "2024-04-19T17:27:03.247Z",
+      "title": "Новость пользователя Elena",
+      "text": "19/04/2024 пользователь Елена совершила первое добавление новости через форму",
+      "rating": 3
+    }
+  },
+  {
+    "model": "news.post",
+    "pk": 23,
+    "fields": {
+      "author": 1,
+      "categoryType": "AR",
+      "dateCreation": "2024-04-20T16:52:41.358Z",
+      "title": "Никаких новостей",
+      "text": "Новостей сегодня никаких нет!",
+      "rating": 1
+    }
+  },
+  {
+    "model": "news.post",
+    "pk": 24,
+    "fields": {
+      "author": 2,
+      "categoryType": "NW",
+      "dateCreation": "2024-04-20T17:03:39.667Z",
+      "title": "Новость от Gavrila_Ivolgin",
+      "text": "Эта новость создана представлением PostNewsCreate, через PostFormNews",
+      "rating": 3
+    }
+  },
+  {
+    "model": "news.post",
+    "pk": 25,
+    "fields": {
+      "author": 2,
+      "categoryType": "NW",
+      "dateCreation": "2024-04-20T17:16:02.471Z",
+      "title": "Новость от Gavrila_Ivolgin",
+      "text": "Произведена ещё одна попытка сохранения данных через представление PostNewsCreate",
+      "rating": 2
+    }
+  },
+  {
+    "model": "news.post",
+    "pk": 26,
+    "fields": {
+      "author": 2,
+      "categoryType": "NW",
+      "dateCreation": "2024-04-20T17:21:10.515Z",
+      "title": "Попытка № 3 пользователя Gavrila_Ivolgin сохранить нужную категорию",
+      "text": "def form_valid(self, form):\r\n        post = form.save(commit=False)\r\n        post.categoryType = 'NW'\r\n        return super().form_valid(form)",
+      "rating": 2
+    }
+  },
+  {
+    "model": "news.post",
+    "pk": 27,
+    "fields": {
+      "author": 3,
+      "categoryType": "AR",
+      "dateCreation": "2024-04-21T07:19:50.064Z",
+      "title": "Статья Павла",
+      "text": "21/04/2024 Первая статья автора Павла, при создании которой происходит автозаполнение типа в представлении класса PostArticleCreate",
+      "rating": 3
+    }
+  },
+  {
+    "model": "news.post",
+    "pk": 28,
+    "fields": {
+      "author": 3,
+      "categoryType": "AR",
+      "dateCreation": "2024-04-21T07:41:42.379Z",
+      "title": "2-я статья автора Павел",
+      "text": "Павел также написал 2-ю статью, categoryType которой определяется в методе form_valid класса PostArticleCreate",
+      "rating": 3
+    }
+  }
+]

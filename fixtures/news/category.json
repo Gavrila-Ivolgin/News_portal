@@ -1,0 +1,30 @@
+[
+  {
+    "model": "news.category",
+    "pk": 1,
+    "fields": {
+      "name": "Спорт"
+    }
+  },
+  {
+    "model": "news.category",
+    "pk": 2,
+    "fields": {
+      "name": "Автомобиль"
+    }
+  },
+  {
+    "model": "news.category",
+    "pk": 3,
+    "fields": {
+      "name": "Экономика"
+    }
+  },
+  {
+    "model": "news.category",
+    "pk": 4,
+    "fields": {
+      "name": "Культура"
+    }
+  }
+]

@@ -2,6 +2,7 @@ from django.shortcuts import render
 from django.urls import reverse_lazy
 from django.views.generic.base import TemplateView
 from django.views.generic import ListView, DetailView, UpdateView, DeleteView, CreateView
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 from news.models import Post
 from .filters import PostFilter
@@ -52,7 +53,8 @@ class PostsSearchList(ListView):
         return context
 
 
-class PostNewsCreate(CreateView):
+class PostNewsCreate(LoginRequiredMixin, CreateView):
+    raise_exception = True  # Выдача ошибки с 403 кодом для не авторизированных пользователей
     form_class = PostFormNews
     model = Post
     template_name = 'news/post_edit.html'
