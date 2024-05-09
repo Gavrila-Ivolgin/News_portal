@@ -3,10 +3,24 @@ from django.urls import reverse_lazy
 from django.views.generic.base import TemplateView
 from django.views.generic import ListView, DetailView, UpdateView, DeleteView, CreateView
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.http import HttpResponse
 
 from news.models import Post
 from .filters import PostFilter
 from news.forms import PostFormNews
+
+
+class IndexView(TemplateView):
+    template_name = 'news/index.html'
+    title = 'Good Elephant'
+
+    def get(self, request, *args, **kwargs):
+        # Пример использования request и username
+        if request.user.is_authenticated:
+            username = request.user.username
+            return HttpResponse(f'Привет, {username}!')
+        else:
+            return HttpResponse('Привет, незарегистрированный пользователь!')
 
 
 class PostsList(ListView):
