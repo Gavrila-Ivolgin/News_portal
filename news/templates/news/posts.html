@@ -12,30 +12,42 @@
     <br>
     <h3>Всего новостей: {{ total_count }} </h3>
     <hr>
-
     {% if news %}
         <table>
             <tr>
                 <td>Заголовок</td>
                 <td>Дата публикации</td>
                 <td>Текст статьи</td>
+                <td>Дата добавления</td>
+
+                {% if perms.news.add_post or perms.news.change_post %}
+                    <td>Действия</td>
+                {% endif %}
             </tr>
+
             {% for new in news %}
                 <tr>
                     <td>{{ new.title|censor }}</td>
                     <td>{{ new.dateCreation|date:'d M Y' }}</td>
                     <td>{{ new.text|censor|truncatewords:20 }}</td>
                     <td>{{ new.added_at }}</td>
-
+                    <td>
+                        {# А здесь доступ для каждой ссылки теперь будем проверять отдельно #}
+                        {% if perms.news.add_post %}
+                            <a href="{% url 'news:post_news_created' %}">Добавить</a>
+                        {% endif %}
+                        {% if perms.news.change_post %}
+                            <a href="{% url 'news:post_update' pk=new.id %}">Изменить</a>
+                        {% endif %}
+                    </td>
                 </tr>
             {% endfor %}
-
         </table>
     {% else %}
         <h2>Новостей нет!</h2>
     {% endif %}
 
-        {# Добавляем пагинацию на страницу #}
+    {# Добавляем пагинацию на страницу #}
     {# Информация о предыдущих страницах #}
     {% if page_obj.has_previous %}
         <a href="?page=1">1</a>
