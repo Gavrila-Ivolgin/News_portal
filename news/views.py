@@ -3,7 +3,8 @@ from django.shortcuts import render
 from django.urls import reverse_lazy
 from django.views.generic.base import TemplateView
 from django.views.generic import ListView, DetailView, UpdateView, DeleteView, CreateView
-from django.contrib.auth.mixins import LoginRequiredMixin
+# from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.mixins import PermissionRequiredMixin
 from django.http import HttpResponse
 
 from news.models import Post
@@ -68,8 +69,9 @@ class PostsSearchList(ListView):
         return context
 
 
-class PostNewsCreate(LoginRequiredMixin, CreateView):
-    raise_exception = True  # Выдача ошибки с 403 кодом для не авторизированных пользователей
+class PostNewsCreate(PermissionRequiredMixin, CreateView):
+    # raise_exception = True  # Выдача ошибки с 403 кодом для не авторизированных пользователей
+    permission_required = ('news.add_post',)
     form_class = PostFormNews
     model = Post
     template_name = 'news/post_edit.html'
@@ -80,13 +82,15 @@ class PostNewsCreate(LoginRequiredMixin, CreateView):
         return super().form_valid(form)
 
 
-class PostUpdate(UpdateView):
+class PostUpdate(PermissionRequiredMixin, UpdateView):
+    permission_required = ('news.change_post',)
     form_class = PostFormNews
     model = Post
     template_name = 'news/post_edit.html'
 
 
-class PostDelete(DeleteView):
+class PostDelete(PermissionRequiredMixin, DeleteView):
+    permission_required = ('news.delete_post',)
     model = Post
     template_name = 'news/post_delete.html'
     success_url = reverse_lazy('news:posts_list')
