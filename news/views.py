@@ -19,7 +19,7 @@ class IndexView(TemplateView):
     def get(self, request, *args, **kwargs):
         # Пример использования request и username
         if request.user.is_authenticated:
-            msg = f'Привет, {request.user.username}! Добро пожаловать в приложение News portal!'
+            msg = f'Привет, {request.user.username}! Добро пожаловать в приложение News portal! # branch main #'
             print(request.user)
             return HttpResponse(msg)
         else:
