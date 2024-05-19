@@ -19,10 +19,11 @@ class IndexView(TemplateView):
     def get(self, request, *args, **kwargs):
         # Пример использования request и username
         if request.user.is_authenticated:
-            username = request.user.username
-            return HttpResponse(f'Привет, {username}!')
+            msg = f'Привет, {request.user.username}! Добро пожаловать в приложение News portal!'
+            print(request.user)
+            return HttpResponse(msg)
         else:
-            return HttpResponse('Привет, незарегистрированный пользователь!')
+            return HttpResponse(request.user)
 
 
 class PostsList(ListView):
