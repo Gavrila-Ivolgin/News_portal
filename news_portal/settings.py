@@ -56,7 +56,7 @@ SECRET_KEY = env('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = env('DEBUG')
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 DOMAIN_NAME = env('DOMAIN_NAME')
 
@@ -167,7 +167,7 @@ STATICFILES_DIRS = [
 ]
 
 LOGIN_REDIRECT_URL = "/news"
-LOGOUT_REDIRECT_URL = "/"
+LOGOUT_REDIRECT_URL = '/'
 
 SITE_ID = 1
 
@@ -186,6 +186,7 @@ ACCOUNT_EMAIL_VERIFICATION = 'none'
 ACCOUNT_FORMS = {"signup": "accounts.forms.CustomSignupForm"}
 
 # Sending emails
+"""
 if DEBUG:
     EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 else:
@@ -196,3 +197,24 @@ else:
     EMAIL_USE_TLS = env('EMAIL_USE_TLS')
     EMAIL_USE_SSL = env('EMAIL_USE_SSL')
     DEFAULT_FROM_EMAIL = env('DEFAULT_FROM_EMAIL')
+"""
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = env('EMAIL_HOST')
+EMAIL_PORT = env('EMAIL_PORT')
+EMAIL_HOST_USER = env('EMAIL_HOST_USER')
+EMAIL_HOST_PASSWORD = env('EMAIL_HOST_PASSWORD')
+EMAIL_USE_TLS = env('EMAIL_USE_TLS')
+EMAIL_USE_SSL = env('EMAIL_USE_SSL')
+DEFAULT_FROM_EMAIL = env('DEFAULT_FROM_EMAIL')
+
+SERVER_EMAIL = env('EMAIL_HOST_USER')
+MANAGERS = (
+    ('Gavrila', 'gavrivolgin@gmail.com'),
+    ('Nata', 'Natveres@yandex.ru'),
+)
+
+ADMINS = (
+    ('admin', 'nebosst@yandex.ru'),
+)
+
+EMAIL_SUBJECT_PREFIX = '[The good traveler] '
