@@ -33,7 +33,9 @@ env = environ.Env(
     EMAIL_PORT=(int),
     EMAIL_HOST_USER=(str),
     EMAIL_HOST_PASSWORD=(str),
+    EMAIL_USE_TLS=(bool),
     EMAIL_USE_SSL=(bool),
+    DEFAULT_FROM_EMAIL=(str),
 
     ACCOUNT_ID_YOOKASSA=(int),
     SECRET_KEY_YOOKASSA=(str),
