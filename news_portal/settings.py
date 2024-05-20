@@ -79,6 +79,7 @@ INSTALLED_APPS = [
     'allauth.socialaccount.providers.github',
 
     'news',
+    'accounts',
 ]
 
 MIDDLEWARE = [
@@ -166,6 +167,7 @@ STATICFILES_DIRS = [
 ]
 
 LOGIN_REDIRECT_URL = "/news"
+LOGOUT_REDIRECT_URL = "/"
 
 SITE_ID = 1
 
