@@ -23,7 +23,8 @@ class IndexView(TemplateView):
             print(request.user)
             return HttpResponse(msg)
         else:
-            return HttpResponse(request.user)
+            msg = f'Привет, {request.user}! Добро пожаловать в приложение News portal! # branch main #'
+            return HttpResponse(msg)
 
 
 class PostsList(ListView):
