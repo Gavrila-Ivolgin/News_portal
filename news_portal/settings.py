@@ -98,7 +98,8 @@ ROOT_URLCONF = 'news_portal.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR, 'news/templates/news')],
+        # 'DIRS': [os.path.join(BASE_DIR, 'news/templates/news')],
+        'DIRS': [os.path.join(BASE_DIR, 'templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -169,7 +170,7 @@ STATICFILES_DIRS = [
 LOGIN_REDIRECT_URL = "/news"
 LOGOUT_REDIRECT_URL = '/'
 
-SITE_ID = 1
+SITE_ID = 2
 
 AUTHENTICATION_BACKENDS = [
     'django.contrib.auth.backends.ModelBackend',
@@ -180,7 +181,16 @@ ACCOUNT_EMAIL_REQUIRED = True
 ACCOUNT_UNIQUE_EMAIL = True
 ACCOUNT_USERNAME_REQUIRED = False
 ACCOUNT_AUTHENTICATION_METHOD = 'email'
-ACCOUNT_EMAIL_VERIFICATION = 'none'
+"""
+mandatory — не пускать пользователя на сайт до момента подтверждения почты;
+optional — сообщение о подтверждении почты будет отправлено, но пользователь 
+           может залогиниться на сайте без подтверждения почты.
+"""
+ACCOUNT_EMAIL_VERIFICATION = 'optional'
+ACCOUNT_EMAIL_SUBJECT_PREFIX = '[News portal]'
+
+# Позволит избежать дополнительного входа и активирует аккаунт сразу, как только мы перейдём по ссылке.
+ACCOUNT_CONFIRM_EMAIL_ON_GET = True
 
 # Чтобы allauth распознал нашу форму как ту, что должна выполняться вместо формы по умолчанию
 ACCOUNT_FORMS = {"signup": "accounts.forms.CustomSignupForm"}
@@ -208,13 +218,13 @@ EMAIL_USE_SSL = env('EMAIL_USE_SSL')
 DEFAULT_FROM_EMAIL = env('DEFAULT_FROM_EMAIL')
 
 SERVER_EMAIL = env('EMAIL_HOST_USER')
-MANAGERS = (
-    ('Gavrila', 'gavrivolgin@gmail.com'),
-    ('Nata', 'Natveres@yandex.ru'),
-)
+# MANAGERS = (
+#     ('Gavrila', 'gavrivolgin@gmail.com'),
+#     ('Nata', 'Natveres@yandex.ru'),
+# )
 
 ADMINS = (
-    ('admin', 'nebosst@yandex.ru'),
+    ('admin', 'Nebosst@yandex.ru'),
 )
 
-EMAIL_SUBJECT_PREFIX = '[The good traveler] '
+EMAIL_SUBJECT_PREFIX = '[News portal] '

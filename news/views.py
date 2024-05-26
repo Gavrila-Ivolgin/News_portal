@@ -13,7 +13,7 @@ from news.forms import PostFormNews
 
 
 class IndexView(TemplateView):
-    template_name = 'news/index.html'
+    template_name = 'news/../templates/index.html'
     title = 'Good Elephant'
 
     def get(self, request, *args, **kwargs):

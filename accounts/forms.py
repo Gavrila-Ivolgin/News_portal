@@ -30,15 +30,17 @@ class CustomSignupForm(SignupForm):
         user = super().save(request)
         subject = 'Добро пожаловать на наш новостной портал!'
         text = f'{user.username}, вы успешно зарегистрировались на сайте!'
+
         html = (
             f'<b>{user.username}</b>, вы успешно зарегистрировались на '
-            f'<a href=" https://b75d-78-36-117-197.ngrok-free.app/news">сайте</a>!'
+            f'<a href="http://127.0.0.1:8000/news/>сайте</a>!'
         )
         msg = EmailMultiAlternatives(
             subject=subject, body=text, from_email=None, to=[user.email,
-                                                             'nebosst@yandex.ru',
-                                                             'Natveres@yandex.ru',
-                                                             'gavrivolgin@gmail.com']
+                                                             # 'nebosst@yandex.ru',
+                                                             # 'Natveres@yandex.ru',
+                                                             # 'gavrivolgin@gmail.com'
+                                                             ]
         )
         msg.attach_alternative(html, "text/html")
         msg.send()
@@ -48,9 +50,14 @@ class CustomSignupForm(SignupForm):
             message=f'Пользователь {user.username} зарегистрировался на сайте!'
         )
 
+        users_count = User.objects.count()
+        msg_admins = f'Пользователь username: {user.username}\nE-mail: {user.email} ' \
+                     f'зарегистрировался на сайте!\n\n'\
+                     f'Количество пользователей: {users_count}'
+
         mail_admins(
             subject='Новый пользователь!',
-            message=f'Пользователь {user.username} зарегистрировался на сайте!'
+            message=msg_admins
         )
 
         return user
