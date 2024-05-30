@@ -7,13 +7,17 @@ from django.views.generic import ListView, DetailView, UpdateView, DeleteView, C
 from django.contrib.auth.mixins import PermissionRequiredMixin
 from django.http import HttpResponse
 
-from news.models import Post
 from .filters import PostFilter
 from news.forms import PostFormNews
 
+from django.contrib.auth.decorators import login_required
+from django.db.models import Exists, OuterRef
+from django.views.decorators.csrf import csrf_protect
+from .models import Subscription, Category, Post
+
 
 class IndexView(TemplateView):
-    template_name = 'news/../templates/index.html'
+    template_name = 'index.html'
     title = 'Good Elephant'
 
     def get(self, request, *args, **kwargs):
@@ -96,3 +100,37 @@ class PostDelete(PermissionRequiredMixin, DeleteView):
     model = Post
     template_name = 'news/post_delete.html'
     success_url = reverse_lazy('news:posts_list')
+
+
+@login_required
+@csrf_protect
+def subscriptions(request):
+    if request.method == 'POST':
+        category_id = request.POST.get('category_id')
+        category = Category.objects.get(id=category_id)
+        action = request.POST.get('action')
+
+        if action == 'subscribe':
+            Subscription.objects.create(user=request.user, category=category)
+        elif action == 'unsubscribe':
+            Subscription.objects.filter(
+                user=request.user,
+                category=category,
+            ).delete()
+
+    categories_with_subscriptions = Category.objects.annotate(
+        user_subscribed=Exists(
+            Subscription.objects.filter(
+                user=request.user,
+                category=OuterRef('pk'),
+            )
+        )
+    ).order_by('name')
+
+    print("Category.objects.all().query =", Category.objects.all().query)
+
+    return render(
+        request,
+        'subscriptions.html',
+        {'categories': categories_with_subscriptions},
+    )

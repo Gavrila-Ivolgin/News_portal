@@ -98,6 +98,9 @@ class Post(models.Model):
                f'| Заголовок: {self.title} | Рейтинг: {self.rating} | Дата размещения: {self.added_at}'
 
     def get_absolute_url(self):
+        """ Используется для определения URL-адреса объекта Post.
+        Он возвращает URL-адрес, по которому можно получить доступ
+        к деталям конкретного поста."""
         return reverse('news:post_detail', args=[str(self.id)])
 
     class Meta:
@@ -113,6 +116,13 @@ class PostCategory(models.Model):
     """
     postThrough = models.ForeignKey(Post, on_delete=models.CASCADE)
     categoriesThrough = models.ForeignKey(Category, on_delete=models.CASCADE)
+
+    def get_absolute_url(self):
+        """ Используется для определения URL-адреса объекта Post.
+        Он возвращает URL-адрес, по которому можно получить доступ
+        к деталям конкретного поста."""
+        print('desired_id =', self.postThrough.id)
+        return reverse('news:post_detail', args=[str(self.postThrough.id)])
 
     def __str__(self):
         return f'postThrough: {self.postThrough} | categoriesThrough: {self.categoriesThrough}'
@@ -137,3 +147,16 @@ class Comment(models.Model):
 
     def __str__(self):
         return f'Post: {self.commentPost} | user: {self.commentUser.username} | rating: {self.rating}'
+
+
+class Subscription(models.Model):
+    user = models.ForeignKey(
+        to=User,
+        on_delete=models.CASCADE,
+        related_name='subscriptions',
+    )
+    category = models.ForeignKey(
+        to='Category',
+        on_delete=models.CASCADE,
+        related_name='subscriptions',
+    )

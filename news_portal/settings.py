@@ -208,7 +208,9 @@ else:
     EMAIL_USE_SSL = env('EMAIL_USE_SSL')
     DEFAULT_FROM_EMAIL = env('DEFAULT_FROM_EMAIL')
 """
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+# EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'  # Реальная почта
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'  # Консоль
+
 EMAIL_HOST = env('EMAIL_HOST')
 EMAIL_PORT = env('EMAIL_PORT')
 EMAIL_HOST_USER = env('EMAIL_HOST_USER')
