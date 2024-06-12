@@ -1,5 +1,5 @@
 from django.urls import path
-from news.views import PostsList, PostDetail, PostsSearchList, PostNewsCreate, PostUpdate, PostDelete, subscriptions
+from news.views import PostsList, PostDetail, PostsSearchList, PostNewsCreate, PostUpdate, PostDelete
 from django.contrib.auth.views import LogoutView
 
 app_name = 'news'
@@ -12,5 +12,4 @@ urlpatterns = [
     path('<int:pk>/update/', PostUpdate.as_view(), name='post_update'),
     path('<int:pk>/delete/', PostDelete.as_view(), name='post_delete'),
     path('logout/', LogoutView.as_view(), name='logout'),
-    path('subscriptions/', subscriptions, name='subscriptions'),
 ]

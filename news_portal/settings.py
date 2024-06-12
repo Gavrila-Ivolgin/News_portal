@@ -77,6 +77,7 @@ INSTALLED_APPS = [
     'allauth.socialaccount',
     'allauth.socialaccount.providers.yandex',
     'allauth.socialaccount.providers.github',
+    'django_apscheduler',  # Планировщик
 
     'news',
     'accounts',
@@ -220,10 +221,10 @@ EMAIL_USE_SSL = env('EMAIL_USE_SSL')
 DEFAULT_FROM_EMAIL = env('DEFAULT_FROM_EMAIL')
 
 SERVER_EMAIL = env('EMAIL_HOST_USER')
-# MANAGERS = (
-#     ('Gavrila', 'gavrivolgin@gmail.com'),
-#     ('Nata', 'Natveres@yandex.ru'),
-# )
+MANAGERS = (
+    ('Gavrila', 'gavrivolgin@gmail.com'),
+    ('Nata', 'Natveres@yandex.ru'),
+)
 
 ADMINS = (
     ('admin', 'Nebosst@yandex.ru'),

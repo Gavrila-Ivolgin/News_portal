@@ -160,3 +160,6 @@ class Subscription(models.Model):
         on_delete=models.CASCADE,
         related_name='subscriptions',
     )
+
+    def __str__(self):
+        return f'user: {self.user} | category: {self.category}'

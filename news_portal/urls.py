@@ -16,7 +16,7 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import include, path
-from news.views import IndexView
+from news.views import IndexView, subscriptions
 
 
 urlpatterns = [
@@ -25,5 +25,5 @@ urlpatterns = [
     path('news/', include('news.urls', namespace='news')),
     path('articles/', include('articles.urls', namespace='articles')),
     path("accounts/", include("allauth.urls")),
-
+    path('subscriptions/', subscriptions, name='subscriptions'),
 ]

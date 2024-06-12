@@ -1,0 +1,26 @@
+<main>
+    <div class="container">
+        <p style="font-size: 15px; color: #667; font-family: Arial, sans-serif;">
+            <input_1></input_1>
+        </p>
+        <p style="font-size: 15px; color: #667; font-family: Arial, sans-serif;">
+            Здравствуйте! Направляем еженедельную рассылку новостей: {{ category }}
+
+        <ul>
+            {% for post in posts %}
+                <li><a href="{{ domain_name }}{{ post.get_absolute_url }}">{{ post.title }}</a></li>
+            {% endfor %}
+        </ul>
+
+        </p>
+
+        <p style="font-size: 15px; color: #667; font-family: Arial, sans-serif;">С наилучшими пожеланиями,</p>
+        <p style="font-size: 15px; color: #667; font-family: Arial, sans-serif;">Директор туристического
+            агентства<br>ООО «География-24»</p>
+        <p style="font-size: 15px; color: #667; font-family: Arial, sans-serif;">Gavrila Ivolgin</p>
+
+        <p style="font-size: 15px; font-family: Arial, sans-serif;">
+            <a href="https://goodtraveler.ru/">https://goodtraveler.ru</a> 🌴
+        </p>
+    </div>
+</main>
