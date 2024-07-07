@@ -1,7 +1,7 @@
 # news/views
 from django.shortcuts import render
 from django.urls import reverse_lazy
-from django.views.generic.base import TemplateView
+from django.views.generic.base import TemplateView, View
 from django.views.generic import ListView, DetailView, UpdateView, DeleteView, CreateView
 # from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.mixins import PermissionRequiredMixin
@@ -14,20 +14,21 @@ from django.contrib.auth.decorators import login_required
 from django.db.models import Exists, OuterRef
 from django.views.decorators.csrf import csrf_protect
 from .models import Subscription, Category, Post
+from news.tasks import hello, printer
 
 
-class IndexView(TemplateView):
-    template_name = 'index.html'
-    title = 'Good Elephant'
-
-    def get(self, request, *args, **kwargs):
+class IndexView(View):
+    def get(self, request):
         # Пример использования request и username
         if request.user.is_authenticated:
             msg = f'Привет, {request.user.username}! Добро пожаловать в приложение News portal! # branch main #'
-            print(request.user)
+            hello.delay()
+            printer.apply_async([5], countdown=5)
             return HttpResponse(msg)
         else:
-            msg = f'Привет, {request.user}! Добро пожаловать в приложение News portal! # branch main #'
+            msg = f'Привет, {request.user}! Войди в систему: http://127.0.0.1:8000/accounts/login/'
+            hello.delay()
+            # printer.delay(10)
             return HttpResponse(msg)
 
 

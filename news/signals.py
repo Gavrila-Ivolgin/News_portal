@@ -8,7 +8,7 @@ from django.contrib.auth.models import User
 from .models import PostCategory, Post, Author
 
 
-@receiver(m2m_changed, sender=PostCategory)
+@receiver(m2m_changed, sender=Post)  # PostCategory
 def product_created(sender, instance, **kwargs):
     if kwargs['action'] == 'post_add':
         categories = instance.category.all()

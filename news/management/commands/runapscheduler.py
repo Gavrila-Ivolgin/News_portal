@@ -44,15 +44,14 @@ def my_job():
     print(email_dict)
 
     # Отправляем письма с ссылками на новые посты каждому email
+    subject = f'Еженедельная рассылка новостей! 🎉🎉🎉'
     for email, categories in email_dict.items():
         # Фильтруем посты по выбранным категориям для каждого email-адреса
         posts = Post.objects.filter(dateCreation__gte=last_week, postCategory__name__in=categories)
-        send_email(email, categories, posts)
+        send_email(email, categories, posts, subject)
 
 
-def send_email(emails, category, posts):
-    subject = f'Еженедельная рассылка новостей! 🎉🎉🎉'
-
+def send_email(emails, category, posts, subject):
     text = str(posts.values_list('title', flat=True))
     html_content = render_to_string(
         'news/daily_post.html',
