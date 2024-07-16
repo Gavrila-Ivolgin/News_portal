@@ -2,6 +2,7 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.db.models import Sum
 from django.urls import reverse
+from django.core.cache import cache
 
 
 class Author(models.Model):
@@ -102,6 +103,13 @@ class Post(models.Model):
         Он возвращает URL-адрес, по которому можно получить доступ
         к деталям конкретного поста."""
         return reverse('news:post_detail', args=[str(self.id)])
+
+    def save(self, *args, **kwargs):
+        """Переопределение метода для сброса кеширования"""
+        # Сначала вызываем метод родителя, чтобы объект сохранился
+        super().save(*args, **kwargs)
+        # Затем удаляем его из кэша, чтобы сбросить его
+        cache.delete(f'new-{self.pk}')
 
     class Meta:
         verbose_name = "Пост"

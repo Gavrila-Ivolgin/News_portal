@@ -9,7 +9,7 @@ https://docs.djangoproject.com/en/5.0/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.0/ref/settings/
 """
-
+import logging
 from pathlib import Path
 import os
 import sys
@@ -243,3 +243,118 @@ CELERY_RESULT_BACKEND = f'redis://{REDIS_HOST}:{REDIS_PORT}'
 CELERY_ACCEPT_CONTENT = ['application/json']
 CELERY_TASK_SERIALIZER = 'json'
 CELERY_RESULT_SERIALIZER = 'json'
+
+# Caches FileBasedCache
+CACHES = {
+    'default': {
+        'BACKEND': 'django.core.cache.backends.filebased.FileBasedCache',
+        'LOCATION': os.path.join(BASE_DIR, 'cache_files'),
+    }
+}
+
+# Secure
+SESSION_COOKIE_SECURE = True
+
+# LOGGING
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'formatters': {
+        'console_formatter': {
+            'format': '%(asctime)s %(levelname)s %(message)s',
+            'datefmt': '%Y-%m-%d %H:%M:%S',
+        },
+        'file_formatter': {
+            'format': '%(asctime)s %(levelname)s %(module)s %(message)s',
+            'datefmt': '%Y-%m-%d %H:%M:%S',
+        },
+        'error_file_formatter': {
+            'format': '%(asctime)s %(levelname)s %(message)s %(pathname)s\n%(exc_info)s',
+            'datefmt': '%Y-%m-%d %H:%M:%S',
+        },
+        'security_file_formatter': {
+            'format': '%(asctime)s %(levelname)s %(module)s %(message)s',
+            'datefmt': '%Y-%m-%d %H:%M:%S',
+        },
+        'email_formatter': {
+            'format': '%(asctime)s %(levelname)s %(message)s %(pathname)s',
+            'datefmt': '%Y-%m-%d %H:%M:%S',
+        },
+    },
+    'handlers': {
+        'console': {
+            'class': 'logging.StreamHandler',
+            'formatter': 'console_formatter',
+            'level': 'DEBUG',
+            'filters': ['debug_only'],
+        },
+        'general_file': {
+            'class': 'logging.FileHandler',
+            'filename': 'general.log',
+            'formatter': 'file_formatter',
+            'level': 'INFO',
+            'filters': ['not_debug'],
+        },
+        'errors_file': {
+            'class': 'logging.FileHandler',
+            'filename': 'errors.log',
+            'formatter': 'error_file_formatter',
+            'level': 'ERROR',
+            'filters': ['django_errors'],
+        },
+        'security_file': {
+            'class': 'logging.FileHandler',
+            'filename': 'security.log',
+            'formatter': 'security_file_formatter',
+            'level': 'INFO',
+            'filters': ['django_security'],
+        },
+        'email': {
+            'class': 'logging.handlers.SMTPHandler',
+            'mailhost': 'your_mail_server',
+            'fromaddr': 'sender@example.com',
+            'toaddrs': ['recipient@example.com'],
+            'subject': 'Error on your Django application',
+            'formatter': 'email_formatter',
+            'level': 'ERROR',
+            'filters': ['django_email'],
+        },
+    },
+    'loggers': {
+        'django': {
+            'handlers': ['console', 'general_file', 'errors_file', 'security_file', 'email'],
+            'level': 'DEBUG',
+            'propagate': False,
+        },
+        'django.request': {
+            'handlers': ['errors_file', 'email'],
+            'level': 'ERROR',
+            'propagate': False,
+        },
+        'django.server': {
+            'handlers': ['errors_file', 'email'],
+            'level': 'ERROR',
+            'propagate': False,
+        },
+    },
+    'filters': {
+        'debug_only': {
+            '()': 'django.utils.log.RequireDebugTrue',
+        },
+        'not_debug': {
+            '()': 'django.utils.log.RequireDebugFalse',
+        },
+        'django_errors': {
+            '()': 'django.utils.log.CallbackFilter',
+            'callback': lambda record: record.levelno >= logging.ERROR,
+        },
+        'django_security': {
+            '()': 'django.utils.log.CallbackFilter',
+            'callback': lambda record: record.name == 'django.security',
+        },
+        'django_email': {
+            '()': 'django.utils.log.CallbackFilter',
+            'callback': lambda record: record.name in ['django.request', 'django.server'] and record.levelno >= logging.ERROR,
+        },
+    },
+}

@@ -15,19 +15,24 @@ from django.db.models import Exists, OuterRef
 from django.views.decorators.csrf import csrf_protect
 from .models import Subscription, Category, Post
 from news.tasks import hello, printer
+from django.core.cache import cache
+import logging
+
+logger = logging.getLogger(__name__)
 
 
 class IndexView(View):
+
     def get(self, request):
         # Пример использования request и username
         if request.user.is_authenticated:
             msg = f'Привет, {request.user.username}! Добро пожаловать в приложение News portal! # branch main #'
-            hello.delay()
-            printer.apply_async([5], countdown=5)
+            # hello.delay()
+            # printer.apply_async([5], countdown=5)
             return HttpResponse(msg)
         else:
             msg = f'Привет, {request.user}! Войди в систему: http://127.0.0.1:8000/accounts/login/'
-            hello.delay()
+            # hello.delay()
             # printer.delay(10)
             return HttpResponse(msg)
 
@@ -49,6 +54,14 @@ class PostDetail(DetailView):
     model = Post  # queryset = Post.objects.get(pk=pk)
     template_name = "news/post.html"
     context_object_name = "new"
+
+    def get_object(self, *args, **kwargs):
+        obj = cache.get(f'new-{self.kwargs["pk"]}', None)
+        # Ели объекта нет в кэше, то получаем его и записываем в кэш
+        if not obj:
+            obj = super().get_object(queryset=self.queryset)
+            cache.set(f'new-{self.kwargs["pk"]}', obj)
+        return obj
 
 
 class PostsSearchList(ListView):
