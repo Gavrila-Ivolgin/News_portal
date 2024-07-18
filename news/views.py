@@ -17,6 +17,7 @@ from .models import Subscription, Category, Post
 from news.tasks import hello, printer
 from django.core.cache import cache
 import logging
+from django.utils.translation import gettext as _  # импортируем функцию для перевода
 
 logger = logging.getLogger(__name__)
 
@@ -148,3 +149,10 @@ def subscriptions(request):
         'subscriptions.html',
         {'categories': categories_with_subscriptions},
     )
+
+
+class Index(View):
+    def get(self, request):
+        string = _('Hello world')
+
+        return HttpResponse(string)
