@@ -3,7 +3,6 @@ from django.shortcuts import render
 from django.urls import reverse_lazy
 from django.views.generic.base import TemplateView, View
 from django.views.generic import ListView, DetailView, UpdateView, DeleteView, CreateView
-# from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.mixins import PermissionRequiredMixin
 from django.http import HttpResponse
 
@@ -14,28 +13,18 @@ from django.contrib.auth.decorators import login_required
 from django.db.models import Exists, OuterRef
 from django.views.decorators.csrf import csrf_protect
 from .models import Subscription, Category, Post
-from news.tasks import hello, printer
 from django.core.cache import cache
 import logging
 from django.utils.translation import gettext as _  # импортируем функцию для перевода
+from common.views import TitleMixin
 
 logger = logging.getLogger(__name__)
+project_name = "Good Elephant"
 
 
-class IndexView(View):
-
-    def get(self, request):
-        # Пример использования request и username
-        if request.user.is_authenticated:
-            msg = f'Привет, {request.user.username}! Добро пожаловать в приложение News portal! # branch main #'
-            # hello.delay()
-            # printer.apply_async([5], countdown=5)
-            return HttpResponse(msg)
-        else:
-            msg = f'Привет, {request.user}! Войди в систему: http://127.0.0.1:8000/accounts/login/'
-            # hello.delay()
-            # printer.delay(10)
-            return HttpResponse(msg)
+class IndexView(TitleMixin, TemplateView):
+    template_name = 'index.html'
+    title = 'ГЕОГРАФИЯ-24'
 
 
 class PostsList(ListView):
@@ -156,3 +145,15 @@ class Index(View):
         string = _('Hello world')
 
         return HttpResponse(string)
+
+
+def open_html_page_about(request):
+    txt = f'{project_name} | О нас'
+    context = {'title': txt}
+    return render(request, 'about.html', context)
+
+
+def open_html_page_contact(request):
+    txt = f'{project_name} | Контакты'
+    context = {'title': txt}
+    return render(request, 'contact.html', context)
